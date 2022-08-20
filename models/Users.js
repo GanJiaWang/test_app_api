@@ -4,23 +4,27 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER.UNSIGNED,
             autoIncrement: true,
             primaryKey: true
-        },
-        name: {
+          },
+          name: {
             type: DataTypes.STRING(50),
             allowNull: true
-        },
-        email: {
+          },
+          email: {
             type: DataTypes.STRING(100),
             allowNull: true,
             unique: true,
             validate: {
-                isEmail: true
+              isEmail: true
             }
-        },
-        password: {
+          },
+          password: {
             type: DataTypes.STRING(72),
             allowNull: true
-        },
+          },
+          contactNo: {
+            type: DataTypes.STRING(50),
+            allowNull: true
+          },
     });
 
     return Users;

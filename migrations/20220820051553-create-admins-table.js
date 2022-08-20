@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('users', {
+    queryInterface.createTable('admins', {
       id: {
         type: Sequelize.INTEGER.UNSIGNED,
         autoIncrement: true,
@@ -24,7 +24,10 @@ module.exports = {
         type: Sequelize.STRING(72),
         allowNull: true
       },
+      role: {
+        type: Sequelize.TINYINT(1)
+      },
     }),
 
-  down: queryInterface => queryInterface.dropTable('users')
+  down: queryInterface => queryInterface.dropTable('admins')
 };
