@@ -177,9 +177,9 @@ app.get("/api/products", (req, res) => {
   });
 });
 
-app.post("/api/users/products", (req, res) => {
+app.post("/api/products/create", (req, res) => {
   const { description, name, category, price } = req.body
-  let sql = `INSERT INTO products (name, description, category, price) VALUES ('${name}','${description}','${category}', ${price})`;
+  let sql = `INSERT INTO products (name, description, category, price) VALUES ('${name}'${description !== "" ? `, '${description}'` : ''},'${category}', ${price})`;
   db.query(sql, (err, results) => {
     if (err) {
       return res.status(500).json({ message: err.sqlMessage });
@@ -206,7 +206,7 @@ app.get("/api/products/:id", (req, res) => {
 app.put("/api/products/:id", (req, res) => {
   const { id } = req.params;
   const { description, name, category, price } = req.body
-  let sql = `UPDATE products SET description = '${description}', name = '${name}', category = '${category}', price = ${price} WHERE id = ${id}`;
+  let sql = `UPDATE products SET name = '${name}'${description !== undefined ? `, description = \'${description}\'` : ''}, category = '${category}', price = ${price} WHERE id = ${id}`;
   db.query(sql, (err, results) => {
     if (err) {
       return res.status(500).json({ message: err.sqlMessage });
