@@ -249,6 +249,45 @@ app.get("/api/mobile/product", (req, res) => {
   });
 });
 
+app.get("/api/mobile/cart/:id", (req, res) => {
+  const { id } = req.params;
+  // console.log(id);
+  let sql = `SELECT * FROM carts WHERE product_id = ${id}`;
+  db.query(sql, (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: err.sqlMessage });
+    }
+    // if (!results[0]) {
+    //   return res.status(500).json({ message: 'Something wrong!' });
+    // }
+
+    return res.status(200).json({ results: results[0] });
+  });
+});
+
+app.post("/api/mobile/cart/create", (req, res) => {
+  const { productId, quantity } = req.body
+  let sql = `INSERT INTO carts(product_id, quantity) VALUES ('${productId}','${quantity}')`;
+  db.query(sql, (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: err.sqlMessage });
+    }
+    return res.status(200).json({ message: 'ADD TO CART' });
+  });
+});
+
+app.put("/api/mobile/cart/:id", (req, res) => {
+  const { id } = req.params;
+  const { oldQuantity, quantity } = req.body
+  let sql = `UPDATE carts SET quantity='${oldQuantity + quantity}' WHERE product_id='${id}'`;
+  db.query(sql, (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: err.sqlMessage });
+    }
+    return res.status(200).json({ message: 'ADD TO CART' });
+  });
+});
+
 const port = process.env.DEV_PORT || 3000;
 
 app.listen(port, () => {
